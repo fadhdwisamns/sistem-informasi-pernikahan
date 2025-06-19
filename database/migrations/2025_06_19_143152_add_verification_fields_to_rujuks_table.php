@@ -12,10 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('rujuks', function (Blueprint $table) {
-           
+          
+            $table->string('status_verifikasi')->default('pending')->after('tanggal_rujuk');
+            $table->timestamp('tanggal_verifikasi')->nullable()->after('status_verifikasi');
+            $table->text('catatan_verifikasi')->nullable()->after('tanggal_verifikasi');
 
-            $table->foreignId('verified_by')->nullable()->constrained('users')->onDelete('set null');
-            $table->text('catatan_verifikasi')->nullable();
+            if (!Schema::hasColumn('rujuks', 'kua_id')) {
+                $table->foreignId('kua_id')->after('id')->constrained('master_kua')->onDelete('cascade');
+            }
         });
     }
 
@@ -25,9 +29,14 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('rujuks', function (Blueprint $table) {
-            // Hapus foreign key constraint sebelum drop kolom
-            $table->dropForeign(['verified_by']);
-            $table->dropColumn(['verified_by', 'catatan_verifikasi']);
+            
+            if (Schema::hasColumn('rujuks', 'kua_id')) {
+                $table->dropForeign(['kua_id']);
+                $table->dropColumn('kua_id');
+            }
+            
+            // Hapus kolom verifikasi
+            $table->dropColumn(['status_verifikasi', 'tanggal_verifikasi', 'catatan_verifikasi']);
         });
     }
 };
