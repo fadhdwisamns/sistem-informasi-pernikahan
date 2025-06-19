@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Rujuk;
 use Illuminate\Http\Request;
 
+
 class RujukController extends Controller
 {
     /**
@@ -54,7 +55,7 @@ class RujukController extends Controller
 
     public function update(Request $request, Rujuk $rujuk)
     {
-        $request->validate([
+        $validated = $request->validate([
             // 'no_surat_rujuk' => 'required|unique:rujuks,no_surat_rujuk,' . $rujuk->id,
             'tanggal_rujuk' => 'required|date',
             'nama_suami' => 'required|string',
@@ -65,7 +66,7 @@ class RujukController extends Controller
             'status' => 'required|in:Menunggu,Disetujui,Ditolak',
         ]);
 
-        $rujuk->update($request->all());
+        $rujuk->update($validated);
 
         return redirect()->route('petugas-kua.rujuk.index')
                          ->with('success', 'Data rujuk berhasil diperbarui.');

@@ -27,6 +27,14 @@ class Pernikahan extends Model
         'created_by',
         'catatan_verifikasi',
         'verified_by',
+        'tanggal_daftar',
+        'usia_suami',
+        'usia_istri',
+        'alamat_pasangan',
+        'desa',
+        'tempat_akad',
+        'wali',
+        'nama_wali',
     ];
 
       public function verifiedBy()
@@ -78,5 +86,14 @@ class Pernikahan extends Model
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+     public function files()
+    {
+        return $this->hasMany(PernikahanFile::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(PernikahanImage::class);
     }
 }
