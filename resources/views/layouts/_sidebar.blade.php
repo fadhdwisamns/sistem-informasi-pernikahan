@@ -41,7 +41,11 @@
                 </a>
             @endif
 
-            <a href="#" class="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+             {{-- Link Laporan (Untuk Admin) --}}
+            <a href="{{ route('laporan.index') }}" 
+               class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200
+                     {{ request()->routeIs('laporan.*') ? 'bg-cyan-500 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                <svg class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-5m-2 5h4m-4 0a2 2 0 01-2-2v-5a2 2 0 012-2h4a2 2 0 012 2v5a2 2 0 01-2 2zM3 8a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
                 <span>Laporan</span>
             </a>
         @endif
