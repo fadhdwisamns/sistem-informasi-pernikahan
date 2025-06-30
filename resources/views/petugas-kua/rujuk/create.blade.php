@@ -25,7 +25,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('petugas-kua.rujuk.store') }}" class="space-y-6">
+                    <form method="POST" action="{{ route('petugas-kua.rujuk.store') }}" class="space-y-6" enctype="multipart/form-data">
                         @csrf
 
                         
@@ -73,6 +73,19 @@
                             <x-text-input id="tempat_rujuk" name="tempat_rujuk" type="text" class="mt-1 block w-full" :value="old('tempat_rujuk')" required />
                             <x-input-error class="mt-2" :messages="$errors->get('tempat_rujuk')" />
                         </div>
+                        <div class="mt-4">
+                        <x-input-label for="desa" :value="__('Desa/Kelurahan')" />
+                        <x-text-input id="desa" name="desa" type="text" class="mt-1 block w-full" :value="old('desa')" required />
+                        <x-input-error class="mt-2" :messages="$errors->get('desa')" />
+                    </div>
+                        {{-- Input File Akta Cerai --}}
+                        <div>
+                            <x-input-label for="file_akta_cerai" :value="__('Upload Akta Cerai (PDF/Gambar)')" />
+                            <input id="file_akta_cerai" name="file_akta_cerai" type="file" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-700 dark:file:text-indigo-300 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-800">
+                            <x-input-error class="mt-2" :messages="$errors->get('file_akta_cerai')" />
+                        </div>
+
+                        {{-- Tombol Simpan dan Batal --}}
 
                         <div class="flex items-center justify-end gap-4 mt-6"> {{-- Tambahkan justify-end untuk menempatkan tombol di kanan --}}
                             <a href="{{ route('petugas-kua.rujuk.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-gray-800 dark:text-gray-200 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-600 focus:bg-gray-400 dark:focus:bg-gray-600 active:bg-gray-500 dark:active:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">

@@ -8,7 +8,9 @@
             <td style="width: 80%; text-align: center; border: none; vertical-align: middle;">
                 <h4 style="font-weight: bold; font-size: 14pt; margin: 0;">KEMENTERIAN AGAMA REPUBLIK INDONESIA</h4>
                 <h5 style="font-weight: bold; font-size: 16pt; margin: 0;">KANTOR KEMENTERIAN AGAMA KABUPATEN KUANTAN SINGINGI</h5>
-                <h6 style="font-weight: bold; font-size: 18pt; margin: 0;">KANTOR URUSAN AGAMA KECAMATAN PUCUK RANTAU</h6>
+                {{-- Membuat nama KUA menjadi dinamis --}}
+                <h6 style="font-weight: bold; font-size: 18pt; margin: 0;">KANTOR URUSAN AGAMA KECAMATAN {{ strtoupper($kua->nama_kua) }}</h6>
+                {{-- Anda bisa membuat alamat dinamis juga jika ada datanya, contoh: $kua->alamat --}}
                 <p style="font-size: 11pt; margin: 0;">Alamat: Jl Raya Pucuk Rantau No Telp (021)9999 MUARA TABEK Kode Pos 29364</p>
             </td>
         </tr>

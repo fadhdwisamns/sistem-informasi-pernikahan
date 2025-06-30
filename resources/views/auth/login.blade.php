@@ -88,16 +88,15 @@
                             {{-- Panel Kiri (Informasi) --}}
                             <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center text-white p-5 info-panel">
                                 <div class="text-center">
-                                    <div class="mb-5">
-                                        {{-- Ganti dengan logo Anda --}}
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-shield-lock" viewBox="0 0 16 16">
-                                            <path d="M5.338 1.59a61.44 61.44 0 0 0-2.837.856.481.481 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 0 0 2.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 0 0 .101.025.615.615 0 0 0 .1-.025c.076-.023.174-.06.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.952-.325-1.882-.6-2.837-.855A1.117 1.117 0 0 0 8.528 1.5a1.117 1.117 0 0 0-.832.09zM4.535 2.066A51.319 51.319 0 0 1 8 1.73a51.319 51.319 0 0 1 3.465.336c.82.26 1.543.561 2.155.885a1.002 1.002 0 0 1 .523.892c.482 3.636-.549 6.34-1.887 8.065a9.728 9.728 0 0 1-2.088 2.016c-.332.219-.64.382-.9.5-.145.065-.25.097-.313.11a.49.49 0 0 1-.09.016a.49.49 0 0 1-.09-.016c-.063-.013-.168-.045-.313-.11-.26-.118-.568-.281-.9-.5a9.729 9.729 0 0 1-2.088-2.016c-1.338-1.725-2.37-4.43-1.887-8.065a1 1 0 0 1 .523-.892c.612-.324 1.335-.625 2.155-.885z"/>
-                                            <path d="M9.5 6.5a1.5 1.5 0 0 1-1 1.415l.385 1.96a.5.5 0 1 1-.966.189l-.385-1.96a1.5 1.5 0 1 1 1.966-1.601z"/>
-                                        </svg>                                   
+                                    <div class="mb-4">
+                                        {{-- LOGO KEMENAG --}}
+                                        <img src="{{ asset('images/logo-kemenag.png') }}" alt="Logo Kemenag" style="width: 100px; height: auto;">
                                     </div>
-                                    <h1 class="display-5 fw-bold mb-3">Sistem Informasi Pelaporan</h1>
-                                    <p class="fs-4 fw-semibold opacity-75">Pernikahan & Perceraian</p>
-                                    <p class="mt-4 fs-5 opacity-75">Kemenag Kuantan Singingi</p>
+                                    {{-- JUDUL SISTEM --}}
+                                    <h1 class="h2 fw-bold mb-3">
+                                        Sistem Informasi Pernikahan & Perceraian
+                                    </h1>
+                                    <p class="fs-5 opacity-75">Kemenag Kuantan Singingi</p>
                                 </div>
                             </div>
 

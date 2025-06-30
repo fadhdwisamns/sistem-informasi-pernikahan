@@ -89,8 +89,8 @@ class LaporanController extends Controller
                     ->setPaper('a4', 'landscape');
 
         // Render Halaman 4 (Landscape) - Rekap Rujuk
-        $pdf4 = PDF::loadView('laporan.halaman.4_rekap_rujuk', $data)
-                    ->setPaper('a4', 'landscape');
+        $pdf4 = PDF::loadView('laporan.halaman.4_usia_pengantin', $data) // Ganti nama view di sini
+            ->setPaper('a4', 'landscape');
 
         // Inisialisasi PDF Merger
         $merger = PDFMerger::init();

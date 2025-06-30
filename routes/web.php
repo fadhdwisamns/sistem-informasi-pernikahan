@@ -73,6 +73,11 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::resource('rujuk', RujukController::class);
         Route::resource('perceraians', PerceraianController::class);
         
+        Route::post('pernikahan/import', [PernikahanController::class, 'import'])->name('pernikahan.import');
+        
+        // Rute untuk mengunduh file template
+        Route::get('pernikahan/download-template', [PernikahanController::class, 'downloadTemplate'])->name('pernikahan.download-template');
+        
     });
 
     // GRUP ROUTE KHUSUS PETUGAS PA

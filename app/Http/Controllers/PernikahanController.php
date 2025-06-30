@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\PernikahanFile;   
 use App\Models\PernikahanImage;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\PernikahanImport;
+use Illuminate\Support\Facades\Validator;
 
 class PernikahanController extends Controller
 {
@@ -92,6 +95,8 @@ class PernikahanController extends Controller
             'files.*' => 'file|mimes:pdf,doc,docx|max:2048', // max 2MB per file
             'images' => 'nullable|array|max:4',
             'images.*' => 'image|mimes:jpeg,png,jpg|max:2048', // max 2MB per image
+            'pendidikan_terakhir_suami' => 'nullable|string|max:255', 
+        'pendidikan_terakhir_istri' => 'nullable|string|max:255'
     ]);
      DB::beginTransaction();
         try {
@@ -229,6 +234,8 @@ class PernikahanController extends Controller
             'delete_files.*' => 'integer|exists:pernikahan_files,id',
             'delete_images' => 'nullable|array',
             'delete_images.*' => 'integer|exists:pernikahan_images,id',
+            'pendidikan_terakhir_suami' => 'nullable|string|max:255', 
+            'pendidikan_terakhir_istri' => 'nullable|string|max:255', 
         ]);
         
         DB::beginTransaction();
@@ -307,4 +314,48 @@ class PernikahanController extends Controller
         return redirect()->route('petugas-kua.pernikahan.index')
                         ->with('success', 'Data pernikahan berhasil dihapus.');
         }
+    
+     public function import(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|mimes:xlsx,xls'
+        ], [
+            'file.required' => 'Anda harus memilih file untuk diunggah.',
+            'file.mimes' => 'File harus dalam format .xlsx atau .xls.'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator, 'import')->withInput();
+        }
+
+        try {
+            Excel::import(new PernikahanImport, $request->file('file'));
+            return redirect()->route('petugas-kua.pernikahan.index')
+                             ->with('success', 'Data pernikahan berhasil diimpor.');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+             $failures = $e->failures();
+             $errors = [];
+             foreach ($failures as $failure) {
+                 $errors[] = 'Baris ' . $failure->row() . ': ' . implode(', ', $failure->errors());
+             }
+             return redirect()->back()->withErrors(['import' => $errors])->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()
+                             ->with('error', 'Terjadi kesalahan saat mengimpor data: ' . $e->getMessage())
+                             ->withInput();
+        }
+    }
+
+    /**
+     * Download the Excel template for importing marriage data.
+     */
+    public function downloadTemplate()
+    {
+        $path = public_path('templates/template_import_pernikahan.xlsx');
+        if (!file_exists($path)) {
+            // Jika file tidak ada, berikan pesan error atau buat file tersebut secara dinamis
+            abort(404, 'File template tidak ditemukan.');
+        }
+        return response()->download($path);
+    }
 }

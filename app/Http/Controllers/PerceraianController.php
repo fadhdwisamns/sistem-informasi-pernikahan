@@ -33,7 +33,9 @@ class PerceraianController extends Controller
             'pa_id' => 'required|exists:master_pa,id',
             'tanggal_putusan' => 'required|date',
             'nama_penggugat' => 'required|string|max:255',
+            'nik_penggugat' => 'required|string|digits:16', // Tambahkan ini
             'nama_tergugat' => 'required|string|max:255',
+            'nik_tergugat' => 'required|string|digits:16', 
         ]);
 
         $data = $request->all();
@@ -67,7 +69,9 @@ class PerceraianController extends Controller
             'pa_id' => 'required|exists:master_pa,id',
             'tanggal_putusan' => 'required|date',
             'nama_penggugat' => 'required|string|max:255',
+            'nik_penggugat' => 'required|string|digits:16', // Tambahkan ini
             'nama_tergugat' => 'required|string|max:255',
+            'nik_tergugat' => 'required|string|digits:16', 
             'status_verifikasi' => 'required|in:menunggu,disetujui,ditolak',
             'catatan_verifikasi' => 'nullable|string|max:1000',
         ]);

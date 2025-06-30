@@ -98,6 +98,10 @@
                                     <x-input-label for="tanggal_lahir_suami" value="Tanggal Lahir" />
                                     <x-text-input id="tanggal_lahir_suami" name="tanggal_lahir_suami" type="text" class="mt-1 block w-full date-picker" :value="old('tanggal_lahir_suami', \Carbon\Carbon::parse($pernikahan->tanggal_lahir_suami)->format('d/m/Y'))" required />
                                 </div>
+                                <div>
+                                    <x-input-label for="pendidikan_terakhir_suami" value="Pendidikan Terakhir" />
+                                    <x-text-input id="pendidikan_terakhir_suami" name="pendidikan_terakhir_suami" type="text" class="mt-1 block w-full" :value="old('pendidikan_terakhir_suami', $pernikahan->pendidikan_terakhir_suami)" placeholder="Contoh: S1, SMA" />
+                                </div>
                             </div>
 
                             {{-- KOLOM KANAN: DATA ISTRI --}}
@@ -119,6 +123,9 @@
                                     <x-input-label for="tanggal_lahir_istri" value="Tanggal Lahir" />
                                     <x-text-input id="tanggal_lahir_istri" name="tanggal_lahir_istri" type="text" class="mt-1 block w-full date-picker" :value="old('tanggal_lahir_istri', \Carbon\Carbon::parse($pernikahan->tanggal_lahir_istri)->format('d/m/Y'))" required />
                                 </div>
+                                <div>
+                                <x-input-label for="pendidikan_terakhir_istri" value="Pendidikan Terakhir" />
+                                <x-text-input id="pendidikan_terakhir_istri" name="pendidikan_terakhir_istri" type="text" class="mt-1 block w-full" :value="old('pendidikan_terakhir_istri', $pernikahan->pendidikan_terakhir_istri)" placeholder="Contoh: S1, SMA" />
                             </div>
                         </div>
                     </div>

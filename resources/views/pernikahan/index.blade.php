@@ -80,12 +80,64 @@
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">📄 Daftar Data Pernikahan</h3>
                     @if(auth()->user()->role == 'petugas_kua')
+                        {{-- Tombol Import --}}
+                        <button x-data @click="$dispatch('open-modal', 'import-modal')" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md shadow transition">
+                            📥 Import Data
+                        </button>
+                        {{-- Tombol Tambah Data --}}
                         <a href="{{ route('petugas-kua.pernikahan.create') }}"
                         class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-black text-sm font-medium rounded-md shadow transition">
                         + Tambah Data
                     </a>
                     @endif
                 </div>
+                {{-- Modal untuk Import Excel --}}
+                    <x-modal name="import-modal" :show="$errors->import->isNotEmpty()" focusable>
+                        <form method="post" action="{{ route('petugas-kua.pernikahan.import') }}" class="p-6" enctype="multipart/form-data">
+                            @csrf
+
+                            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                Import Data Pernikahan dari Excel
+                            </h2>
+
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                Unggah file Excel untuk menambahkan data pernikahan secara massal. Pastikan format file sesuai dengan template yang disediakan.
+                            </p>
+
+                            {{-- Menampilkan Pesan Error Validasi Import --}}
+                            @if ($errors->import->any())
+                                <div class="mt-4 p-3 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 border border-red-300 dark:border-red-600 rounded-lg">
+                                    <strong class="font-bold">Terjadi kesalahan validasi pada file yang diunggah:</strong>
+                                    <ul class="mt-2 list-disc list-inside text-sm">
+                                        @foreach ($errors->import->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <div class="mt-6">
+                                <x-input-label for="file" value="File Excel (.xlsx, .xls)" />
+                                <input id="file" name="file" type="file" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-700 dark:file:text-indigo-300 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-800" required accept=".xlsx, .xls">
+                            </div>
+                            
+                            <div class="mt-4">
+                                <a href="{{ route('petugas-kua.pernikahan.download-template') }}" class="text-sm text-cyan-600 hover:underline">
+                                    Unduh Template Excel
+                                </a>
+                            </div>
+
+                            <div class="mt-6 flex justify-end">
+                                <x-secondary-button x-on:click="$dispatch('close')">
+                                    Batal
+                                </x-secondary-button>
+
+                                <x-primary-button class="ml-3 bg-green-600 hover:bg-green-700 focus:bg-green-700 active:bg-green-800 focus:ring-green-500">
+                                    Import
+                                </x-primary-button>
+                            </div>
+                        </form>
+                    </x-modal>
 
                 <div class="overflow-x-auto">
                     <table class="w-full border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden">

@@ -21,6 +21,9 @@ class Rujuk extends Model
         'status',
         'catatan_verifikasi', 
         'verified_by',
+        'desa', // <-- TAMBAHKAN INI
+        'file_akta_cerai',
+
     ];
 
      public function verifiedBy()

@@ -70,9 +70,19 @@
                             <x-input-error class="mt-2" :messages="$errors->get('nama_penggugat')" />
                         </div>
                         <div class="mt-4">
+                            <x-input-label for="nik_penggugat" :value="__('NIK Penggugat')" />
+                            <x-text-input id="nik_penggugat" name="nik_penggugat" type="text" class="mt-1 block w-full" :value="old('nik_penggugat', $perceraian->nik_penggugat)" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('nik_penggugat')" />
+                        </div>
+                        <div class="mt-4">
                             <x-input-label for="nama_tergugat" :value="__('Nama Tergugat')" />
                             <x-text-input id="nama_tergugat" name="nama_tergugat" type="text" class="mt-1 block w-full" :value="old('nama_tergugat', $perceraian->nama_tergugat)" required />
                             <x-input-error class="mt-2" :messages="$errors->get('nama_tergugat')" />
+                        </div>
+                        <div class="mt-4">
+                            <x-input-label for="nik_tergugat" :value="__('NIK Tergugat')" />
+                            <x-text-input id="nik_tergugat" name="nik_tergugat" type="text" class="mt-1 block w-full" :value="old('nik_tergugat', $perceraian->nik_tergugat)" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('nik_tergugat')" />
                         </div>
                         
                         <div>
