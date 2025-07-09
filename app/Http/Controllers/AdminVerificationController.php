@@ -62,11 +62,10 @@ class AdminVerificationController extends Controller
         return view('admin.verification.rujuk', compact('rujuk'));
     }
 
-    // --- Method untuk Memproses Verifikasi Rujuk (dipanggil dari form verifikasi admin) ---
     public function verifyRujuk(Request $request, Rujuk $rujuk)
     {
         $request->validate([
-            'status' => 'required|in:Menunggu,Disetujui,Ditolak', // 'Menunggu' dengan M kapital
+            'status' => 'required|in:Menunggu,Disetujui,Ditolak', 
             'catatan_verifikasi' => 'nullable|string|max:1000',
         ]);
 
@@ -77,5 +76,29 @@ class AdminVerificationController extends Controller
 
         return redirect()->route('admin.verification.index')
                          ->with('success', 'Status verifikasi data rujuk berhasil diperbarui.');
+    }
+
+
+    public function showPerceraianVerificationForm(Perceraian $perceraian)
+    {
+        // Pastikan relasi yang dibutuhkan sudah di-load
+        $perceraian->load(['masterPa', 'createdBy']);
+        return view('admin.verification.perceraian', compact('perceraian'));
+    }
+
+    public function verifyPerceraian(Request $request, Perceraian $perceraian)
+    {
+        $request->validate([
+            'status_verifikasi' => 'required|in:menunggu,disetujui,ditolak',
+            'catatan_verifikasi' => 'nullable|string|max:1000',
+        ]);
+
+        $perceraian->status_verifikasi = $request->status_verifikasi;
+        $perceraian->catatan_verifikasi = $request->catatan_verifikasi;
+      
+        $perceraian->save();
+
+        return redirect()->route('admin.verification.index')
+                        ->with('success', 'Status verifikasi data perceraian berhasil diperbarui.');
     }
 }

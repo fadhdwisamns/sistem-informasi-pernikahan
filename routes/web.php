@@ -61,8 +61,8 @@ Route::middleware(['auth', 'verified'])->group(function() {
 
         // Verifikasi Perceraian (Admin)
         // Note: Method showVerificationForm & verify ada di PerceraianController
-        Route::get('perceraians/{perceraian}/verify-form', [PerceraianController::class, 'showVerificationForm'])->name('perceraians.show_verify_form');
-        Route::patch('perceraians/{perceraian}/verify-data', [PerceraianController::class, 'verify'])->name('perceraians.verify_data');
+        Route::get('perceraians/{perceraian}/verify-form', [AdminVerificationController::class, 'showPerceraianVerificationForm'])->name('perceraians.show_verify_form');
+        Route::patch('perceraians/{perceraian}/verify-data', [AdminVerificationController::class, 'verifyPerceraian'])->name('perceraians.verify_data');
 
     });
 
