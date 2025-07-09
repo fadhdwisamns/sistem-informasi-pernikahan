@@ -24,7 +24,9 @@ class PerceraianController extends Controller
         $masterPas = MasterPA::all();
         
         $routePrefix = (Auth::user()->role == 'petugas_kua' ? 'petugas-kua' : 'petugas-pa');
+
         return view('petugas-kua.perceraian.create', compact('masterPas', 'routePrefix'));
+        // return view($routePrefix . '.perceraian.create', compact('masterPas', 'routePrefix'));
     }
 
     public function store(Request $request)

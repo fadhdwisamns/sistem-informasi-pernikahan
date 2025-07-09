@@ -25,7 +25,8 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('petugas-kua.perceraians.store') }}" class="space-y-6">
+                    <!-- <form method="POST" action="{{ route('petugas-kua.perceraians.store') }}" class="space-y-6"> -->
+                        <form method="POST" action="{{ route($routePrefix . '.perceraians.store') }}" class="space-y-6">
                         @csrf
 
                         <div>
