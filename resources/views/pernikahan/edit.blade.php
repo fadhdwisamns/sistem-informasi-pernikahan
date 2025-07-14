@@ -102,6 +102,10 @@
                                     <x-input-label for="pendidikan_terakhir_suami" value="Pendidikan Terakhir" />
                                     <x-text-input id="pendidikan_terakhir_suami" name="pendidikan_terakhir_suami" type="text" class="mt-1 block w-full" :value="old('pendidikan_terakhir_suami', $pernikahan->pendidikan_terakhir_suami)" placeholder="Contoh: S1, SMA" />
                                 </div>
+                                <div>
+                                    <x-input-label for="nama_ayah_suami" value="Nama Ayah" />
+                                    <x-text-input id="nama_ayah_suami" name="nama_ayah_suami" type="text" class="mt-1 block w-full" :value="old('nama_ayah_suami', $pernikahan->nama_ayah_suami)" />
+                                </div>
                             </div>
 
                             {{-- KOLOM KANAN: DATA ISTRI --}}
@@ -127,6 +131,10 @@
                                 <x-input-label for="pendidikan_terakhir_istri" value="Pendidikan Terakhir" />
                                 <x-text-input id="pendidikan_terakhir_istri" name="pendidikan_terakhir_istri" type="text" class="mt-1 block w-full" :value="old('pendidikan_terakhir_istri', $pernikahan->pendidikan_terakhir_istri)" placeholder="Contoh: S1, SMA" />
                             </div>
+                             <div>
+                                <x-input-label for="nama_ayah_istri" value="Nama Ayah" />
+                                <x-text-input id="nama_ayah_istri" name="nama_ayah_istri" type="text" class="mt-1 block w-full" :value="old('nama_ayah_istri', $pernikahan->nama_ayah_istri)" />
+                            </div>
                         </div>
                     </div>
 
@@ -143,23 +151,7 @@
                                      <x-input-label for="desa" value="Desa" />
                                     <x-text-input id="desa" name="desa" type="text" class="mt-1 block w-full" :value="old('desa', $pernikahan->desa)" required />
                                 </div>
-
-                                {{-- Menampilkan file yang sudah ada --}}
-                                @if($pernikahan->files->isNotEmpty())
-                                <div class="space-y-3">
-                                    <label class="block text-sm font-medium text-gray-900 dark:text-white">Dokumen Terunggah (Centang untuk hapus)</label>
-                                    @foreach($pernikahan->files as $file)
-                                        <div class="flex items-center justify-between text-sm p-2 bg-gray-100 dark:bg-gray-800 rounded-md">
-                                            <a href="{{ Storage::url($file->file_path) }}" target="_blank" class="text-cyan-600 hover:underline truncate pr-4">{{ $file->original_name }}</a>
-                                            <div class="flex items-center">
-                                                <input type="checkbox" name="delete_files[]" value="{{ $file->id }}" class="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500">
-                                                <label class="ml-2 text-red-600">Hapus</label>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                @endif
-
+                                
                                 {{-- Menampilkan gambar yang sudah ada --}}
                                 @if($pernikahan->images->isNotEmpty())
                                 <div class="space-y-3">
@@ -178,14 +170,13 @@
                                 @endif
 
                                 {{-- Input untuk menambah file & gambar baru --}}
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                                    <div>
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="files">Tambah File Baru (Maks: 4)</label>
-                                        <input id="files" name="files[]" type="file" class="... (sama seperti di create)" multiple>
-                                    </div>
-                                    <div>
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="images">Tambah Gambar Baru (Maks: 4)</label>
-                                        <input id="images" name="images[]" type="file" class="... (sama seperti di create)" multiple accept="image/*" />
+                                <div>
+                                       <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="images">Tambah Gambar Baru (Maks: 5)</label>
+                                        {{-- KETERANGAN DITAMBAHKAN DI SINI --}}
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                                            Upload: Foto KTP, Foto KK, Foto Akta Kelahiran, Foto Calon Pengantin.
+                                        </p>
+                                        <input id="images" name="images[]" type="file" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-700 dark:file:text-indigo-300 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-800" multiple accept="image/*" />
                                     </div>
                                 </div>
                             </div>

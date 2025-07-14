@@ -93,7 +93,7 @@ class PernikahanController extends Controller
             'nama_wali' => 'required|string|max:255',
             'files' => 'nullable|array|max:4',
             'files.*' => 'file|mimes:pdf,doc,docx|max:2048', // max 2MB per file
-            'images' => 'nullable|array|max:4',
+            'images' => 'nullable|array|max:5',
             'images.*' => 'image|mimes:jpeg,png,jpg|max:2048', // max 2MB per image
             'pendidikan_terakhir_suami' => 'nullable|string|max:255', 
         'pendidikan_terakhir_istri' => 'nullable|string|max:255'
@@ -124,15 +124,15 @@ class PernikahanController extends Controller
             $pernikahan = Pernikahan::create($dataToStore);
 
             // 2. Proses upload files jika ada
-            if ($request->hasFile('files')) {
-                foreach ($request->file('files') as $file) {
-                    $path = $file->store('pernikahan_files', 'public');
-                    $pernikahan->files()->create([
-                        'file_path' => $path,
-                        'original_name' => $file->getClientOriginalName(),
-                    ]);
-                }
-            }
+            // if ($request->hasFile('files')) {
+            //     foreach ($request->file('files') as $file) {
+            //         $path = $file->store('pernikahan_files', 'public');
+            //         $pernikahan->files()->create([
+            //             'file_path' => $path,
+            //             'original_name' => $file->getClientOriginalName(),
+            //         ]);
+            //     }
+            // }
 
             // 3. Proses upload images jika ada
             if ($request->hasFile('images')) {
@@ -189,10 +189,10 @@ class PernikahanController extends Controller
      */
     public function edit(Pernikahan $pernikahan)
     {
-            $pernikahan->load(['kua', 'files', 'images', 'createdBy', 'verifiedBy']);
-            return view('pernikahan.edit', [
-            'pernikahan' => $pernikahan->load(['files', 'images']),
-        ]);
+        $pernikahan->load(['kua', 'images', 'createdBy', 'verifiedBy']);
+        return view('pernikahan.edit', [
+            'pernikahan' => $pernikahan,
+            ]);
     }
 
     /**
@@ -236,17 +236,19 @@ class PernikahanController extends Controller
             'delete_images.*' => 'integer|exists:pernikahan_images,id',
             'pendidikan_terakhir_suami' => 'nullable|string|max:255', 
             'pendidikan_terakhir_istri' => 'nullable|string|max:255', 
+            'nama_ayah_suami' => 'nullable|string|max:255', 
+            'nama_ayah_istri' => 'nullable|string|max:255', 
         ]);
         
         DB::beginTransaction();
         try {
             // Hapus file/gambar yang dicentang
-            if ($request->filled('delete_files')) {
-                foreach ($request->delete_files as $fileId) {
-                    $file = PernikahanFile::find($fileId);
-                    if ($file) { Storage::disk('public')->delete($file->file_path); $file->delete(); }
-                }
-            }
+            // if ($request->filled('delete_files')) {
+            //     foreach ($request->delete_files as $fileId) {
+            //         $file = PernikahanFile::find($fileId);
+            //         if ($file) { Storage::disk('public')->delete($file->file_path); $file->delete(); }
+            //     }
+            // }
             if ($request->filled('delete_images')) {
                 foreach ($request->delete_images as $imageId) {
                     $image = PernikahanImage::find($imageId);
@@ -275,12 +277,12 @@ class PernikahanController extends Controller
             $pernikahan->update($dataToUpdate);
 
             // Proses upload file baru jika ada
-            if ($request->hasFile('files')) {
-                foreach ($request->file('files') as $file) {
-                    $path = $file->store('pernikahan_files', 'public');
-                    $pernikahan->files()->create(['file_path' => $path, 'original_name' => $file->getClientOriginalName()]);
-                }
-            }
+            // if ($request->hasFile('files')) {
+            //     foreach ($request->file('files') as $file) {
+            //         $path = $file->store('pernikahan_files', 'public');
+            //         $pernikahan->files()->create(['file_path' => $path, 'original_name' => $file->getClientOriginalName()]);
+            //     }
+            // }
 
             // Proses upload gambar baru jika ada
             if ($request->hasFile('images')) {

@@ -19,10 +19,14 @@ class Pernikahan extends Model
         'nik_suami',
         'tempat_lahir_suami',
         'tanggal_lahir_suami',
+        'pendidikan_terakhir_suami', // Kolom yang sudah ada
+        'nama_ayah_suami',          // <-- TAMBAHKAN INI
         'nama_istri',
         'nik_istri',
         'tempat_lahir_istri',
         'tanggal_lahir_istri',
+        'pendidikan_terakhir_istri', // Kolom yang sudah ada
+        'nama_ayah_istri',           // <-- TAMBAHKAN INI
         'status_verifikasi', 
         'created_by',
         'catatan_verifikasi',
@@ -87,10 +91,10 @@ class Pernikahan extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-     public function files()
-    {
-        return $this->hasMany(PernikahanFile::class);
-    }
+    //  public function files()
+    // {
+    //     return $this->hasMany(PernikahanFile::class);
+    // }
 
     public function images()
     {

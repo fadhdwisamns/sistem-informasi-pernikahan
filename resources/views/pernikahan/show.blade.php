@@ -82,6 +82,10 @@
                                 <dt class="font-medium text-gray-500 dark:text-gray-400 col-span-1">Usia Saat Akad</dt>
                                 <dd class="text-gray-900 dark:text-white col-span-2">{{ $pernikahan->usia_suami }} Tahun</dd>
                             </div>
+                             <div class="grid grid-cols-3 gap-4">
+                                <dt class="font-medium text-gray-500 dark:text-gray-400 col-span-1">Nama Ayah</dt>
+                                <dd class="text-gray-900 dark:text-white col-span-2">{{ $pernikahan->nama_ayah_suami ?? '-' }}</dd>
+                            </div>
                         </dl>
                     </div>
                 </div>
@@ -107,6 +111,10 @@
                                 <dt class="font-medium text-gray-500 dark:text-gray-400 col-span-1">Usia Saat Akad</dt>
                                 <dd class="text-gray-900 dark:text-white col-span-2">{{ $pernikahan->usia_istri }} Tahun</dd>
                             </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <dt class="font-medium text-gray-500 dark:text-gray-400 col-span-1">Nama Ayah</dt>
+                                <dd class="text-gray-900 dark:text-white col-span-2">{{ $pernikahan->nama_ayah_istri ?? '-' }}</dd>
+                            </div>
                         </dl>
                     </div>
                 </div>
@@ -130,20 +138,6 @@
                          </div>
                          {{-- Dokumen & Gambar --}}
                          <div class="space-y-6">
-                            @if($pernikahan->files->isNotEmpty())
-                                <div>
-                                    <h4 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-2">Dokumen Terlampir</h4>
-                                    <ul class="space-y-2">
-                                        @foreach($pernikahan->files as $file)
-                                            <li class="flex items-center justify-between text-sm p-2 bg-gray-50 dark:bg-gray-700/50 rounded-md">
-                                                <span class="truncate pr-4">{{ $file->original_name }}</span>
-                                                <a href="{{ Storage::url($file->file_path) }}" target="_blank" class="text-cyan-600 hover:underline font-semibold">Lihat</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-
                              @if($pernikahan->images->isNotEmpty())
                                 <div>
                                     <h4 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-2">Gambar Terlampir</h4>
