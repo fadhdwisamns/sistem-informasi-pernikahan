@@ -54,11 +54,34 @@
                             <x-input-error class="mt-2" :messages="$errors->get('pa_id')" />
                         </div>
 
+                        <div>
+                            <x-input-label for="kua_id" :value="__('Pilih KUA Terkait')" />
+                            <select id="kua_id" name="kua_id" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
+                                <option value="">-- Pilih KUA --</option>
+                                @foreach($masterKuas as $kua)
+                                    <option value="{{ $kua->id }}" {{ old('kua_id', $perceraian->kua_id) == $kua->id ? 'selected' : '' }}>
+                                        {{ $kua->nama_kua }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('kua_id')" />
+                        </div>
+
                         {{-- Input Tanggal Putusan --}}
                         <div>
                             <x-input-label for="tanggal_putusan" :value="__('Tanggal Putusan')" />
                             <x-text-input id="tanggal_putusan" name="tanggal_putusan" type="text" class="mt-1 block w-full" :value="old('tanggal_putusan', $perceraian->tanggal_putusan)" required />
                             <x-input-error class="mt-2" :messages="$errors->get('tanggal_putusan')" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="jenis_cerai" :value="__('Jenis Cerai')" />
+                            <select id="jenis_cerai" name="jenis_cerai" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
+                                <option value="">-- Pilih Jenis Cerai --</option>
+                                <option value="talak" {{ old('jenis_cerai', $perceraian->jenis_cerai) == 'talak' ? 'selected' : '' }}>Cerai Talak</option>
+                                <option value="gugat" {{ old('jenis_cerai', $perceraian->jenis_cerai) == 'gugat' ? 'selected' : '' }}>Cerai Gugat</option>
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('jenis_cerai')" />
                         </div>
 
                         <hr class="my-6 border-gray-200 dark:border-gray-700">

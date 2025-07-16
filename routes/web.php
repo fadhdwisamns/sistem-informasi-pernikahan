@@ -39,17 +39,17 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/show', [LaporanController::class, 'show'])->name('laporan.show');
+    Route::get('/laporan/kua', [LaporanController::class, 'cetakLaporanKua'])->name('laporan.kua');
+    // Laporan Perceraian
+    Route::get('/laporan/perceraian', [LaporanController::class, 'cetakLaporanPerceraian'])->name('laporan.perceraian');
 
     // GRUP ROUTE KHUSUS ADMIN
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function() {
-        // Verifikasi Pernikahan (Admin)
+       
        Route::resource('users', AdminUserController::class);
 
-        // Dashboard Verifikasi Data (Pernikahan, Rujuk, Perceraian) - Hanya untuk Admin
+       
         Route::get('verification', [AdminVerificationController::class, 'index'])->name('verification.index');
-
-        // === RUTE KHUSUS UNTUK VERIFIKASI PER MODUL (HANYA ADMIN) ===
-        // Rute ini dipanggil dari dashboard verifikasi data (admin.verification.index)
         
         // Verifikasi Pernikahan (Admin)
         Route::get('pernikahan/{pernikahan}/verify-form', [AdminVerificationController::class, 'showPernikahanVerificationForm'])->name('pernikahan.show_verify_form');
@@ -60,9 +60,10 @@ Route::middleware(['auth', 'verified'])->group(function() {
         Route::patch('rujuk/{rujuk}/verify-data', [AdminVerificationController::class, 'verifyRujuk'])->name('rujuk.verify_data');
 
         // Verifikasi Perceraian (Admin)
-        // Note: Method showVerificationForm & verify ada di PerceraianController
         Route::get('perceraians/{perceraian}/verify-form', [AdminVerificationController::class, 'showPerceraianVerificationForm'])->name('perceraians.show_verify_form');
         Route::patch('perceraians/{perceraian}/verify-data', [AdminVerificationController::class, 'verifyPerceraian'])->name('perceraians.verify_data');
+        
+        
 
     });
 

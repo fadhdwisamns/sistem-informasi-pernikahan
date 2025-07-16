@@ -18,12 +18,13 @@
 <body>
     <div class="page">
         <div class="header">
-            @include('laporan.partials.kop_surat')
+            {{-- Menggunakan kop surat Pengadilan Agama untuk laporan perceraian --}}
+            @include('laporan.partials.kop_surat_pa')
         </div>
 
         <div class="content">
             <h4 style="font-weight: bold; text-align: center; font-size: 14pt; margin-bottom: 1rem;">LAPORAN DATA PERCERAIAN</h4>
-            <p style="text-align: center;">Tahun: {{ $tahun }}</p>
+            <p style="text-align: center;">Bulan: {{ $namaBulan }} Tahun: {{ $tahun }}</p> {{-- Disesuaikan menjadi laporan bulanan --}}
             <table class="data-table" style="width: 100%; margin-top: 1rem;">
                 <thead style="font-weight: bold; text-align: center;">
                     <tr>
@@ -41,9 +42,9 @@
                         <td style="text-align: center;">1</td>
                         <td>{{ $kua->nama_kua }}</td>
                         <td style="text-align: center;">{{ $rekapPerceraian->count() }}</td>
-                        {{-- Logika untuk Cerai Talak/Gugat perlu disesuaikan jika ada datanya di model --}}
-                        <td style="text-align: center;">{{-- Ganti dengan count Cerai Talak --}}</td>
-                        <td style="text-align: center;">{{-- Ganti dengan count Cerai Gugat --}}</td>
+                        {{-- Menggunakan variabel yang sudah dihitung di Controller --}}
+                        <td style="text-align: center;">{{ $jumlahTalak }}</td>
+                        <td style="text-align: center;">{{ $jumlahGugat }}</td>
                         <td style="text-align: center;">{{ $rekapPerceraian->count() }}</td>
                         <td style="text-align: center;">{{ now()->format('d/m/Y') }}</td>
                     </tr>
@@ -52,6 +53,7 @@
                         <td colspan="7" style="text-align: center; height: 50px;">Tidak ada data untuk periode ini.</td>
                     </tr>
                     @else
+                    {{-- Baris kosong untuk estetika jika ada data --}}
                     <tr>
                          <td style="height: 30px;"></td><td></td><td></td><td></td><td></td><td></td><td></td>
                     </tr>

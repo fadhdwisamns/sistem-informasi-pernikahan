@@ -18,6 +18,10 @@ class Perceraian extends Model
         'catatan_verifikasi',
         'verified_by',
         'created_by',
+        'jenis_cerai',
+        'kua_id',
+        'nik_penggugat',
+        'nik_tergugat',
     ];
 
    
