@@ -71,11 +71,10 @@
             <div style="width: 40%; margin-left: 60%; text-align: center;">
                 <p>Pangkalan, {{ now()->isoFormat('D MMMM Y') }}</p>
                 <p>Kepala</p>
-                <div style="height: 70px;">
-                    {{-- Di sini bisa ditambahkan gambar stempel jika perlu --}}
-                </div>
-                <p style="font-weight: bold; text-decoration: underline;">Marwis, S.Ag</p>
-                <p>NIP. 197106172005011002</p>
+                <div style="height: 70px;"></div>
+                {{-- Data Dinamis --}}
+                <p style="font-weight: bold; text-decoration: underline;">{{ $kepalaKua['nama'] }}</p>
+                <p>NIP. {{ $kepalaKua['nip'] }}</p>
             </div>
         </div>
     </div>

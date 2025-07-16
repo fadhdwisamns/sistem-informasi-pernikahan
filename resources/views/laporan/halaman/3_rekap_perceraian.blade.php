@@ -62,14 +62,15 @@
             </table>
         </div>
 
-        <div class="footer">
+       <div class="footer">
             <div style="width: 40%; margin-left: 60%; text-align: center;">
                 <p>{{ $kua->nama_kua }}, {{ now()->isoFormat('D MMMM Y') }}</p>
                 <p>Kepala Kantor Urusan Agama</p>
                 <p>Kecamatan {{ $kua->nama_kua }}</p>
                 <div style="height: 70px;"></div>
-                <p style="font-weight: bold; text-decoration: underline;">Marwis, S.Ag</p>
-                <p>NIP. 197106172005011002</p>
+                {{-- Data Dinamis --}}
+                <p style="font-weight: bold; text-decoration: underline;">{{ $kepalaKua['nama'] }}</p>
+                <p>NIP. {{ $kepalaKua['nip'] }}</p>
             </div>
         </div>
     </div>

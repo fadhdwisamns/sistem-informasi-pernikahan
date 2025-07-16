@@ -92,13 +92,14 @@
 
         <div class="footer">
             {{-- TANDA TANGAN --}}
-            <div style="width: 40%; margin-left: 60%; text-align: center;">
+           <div style="width: 40%; margin-left: 60%; text-align: center;">
                 <p>{{ $kua->nama_kua }}, {{ \Carbon\Carbon::create()->month($bulan)->day(cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun))->isoFormat('D MMMM Y') }}</p>
                 <p>Kepala Kantor Urusan Agama</p>
                 <p>Kecamatan {{ $kua->nama_kua }}</p>
                 <div style="height: 70px;"></div>
-                <p style="font-weight: bold; text-decoration: underline;">Marwis, S.Ag</p>
-                <p style="margin:0;">NIP. 197106172005011002</p>
+                {{-- Data Dinamis --}}
+                <p style="font-weight: bold; text-decoration: underline;">{{ $kepalaKua['nama'] }}</p>
+                <p style="margin:0;">NIP. {{ $kepalaKua['nip'] }}</p>
             </div>
         </div>
 

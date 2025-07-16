@@ -15,6 +15,23 @@ use PDF;
 
 class LaporanController extends Controller
 {
+
+    private function getKepalaKuaData($namaKua)
+    {
+        $kepalaData = [
+            'kua kecamatan kuantan mudik' => ['nama' => 'Drs. H. Ahmad Fauzi, M.Ag.', 'nip' => '197001012000031001'],
+            'kua kecamatan hulu kuantan' => ['nama' => 'Muhammad Rais, S.Ag, M.H.', 'nip' => '197205102001121003'],
+            'kua kecamatan singingi' => ['nama' => 'Zulkifli, S.Pd.I.', 'nip' => '197508172005011005'],
+            'kua kecamatan pucuk rantau' => ['nama' => 'Marwis, S.Ag', 'nip' => '197106172005011002'],
+            'kua kecamatan singingi hilir' => ['nama' => 'Hj. Fatimah, S.H.I.', 'nip' => '197803152003122001'],
+            'kua kecamatan benai' => ['nama' => 'Abdul Ghafur, Lc.', 'nip' => '198011202006041002'],
+            
+        ];
+
+        $normalizedNamaKua = strtolower($namaKua);
+
+        return $kepalaData[$normalizedNamaKua] ?? ['nama' => 'Nama Kepala Default', 'nip' => 'NIP Kepala Default'];
+    }
     /**
      * Menampilkan halaman filter laporan.
      */
@@ -60,6 +77,18 @@ class LaporanController extends Controller
         
         $namaBulan = Carbon::create()->month($bulan)->translatedFormat('F');
 
+         $kepalaKua = $this->getKepalaKuaData($kua->nama_kua);
+
+         $rekapDaftarNikah = Pernikahan::where('kua_id', $kua->id)
+                            ->whereMonth('tanggal_akad', $bulan)
+                            ->whereYear('tanggal_akad', $tahun)
+                            ->orderBy('tanggal_daftar', 'asc')
+                            ->get();
+
+
+        $pendidikanSuami = $rekapDaftarNikah->countBy('pendidikan_terakhir_suami');
+        $pendidikanIstri = $rekapDaftarNikah->countBy('pendidikan_terakhir_istri');
+
         // 2. Kumpulkan semua data yang dibutuhkan (kecuali perceraian)
         $data = [
             'kua' => $kua,
@@ -68,17 +97,23 @@ class LaporanController extends Controller
             'namaBulan' => $namaBulan,
             'rekapDaftarNikah' => Pernikahan::where('kua_id', $kua->id)->whereMonth('tanggal_akad', $bulan)->whereYear('tanggal_akad', $tahun)->orderBy('tanggal_daftar', 'asc')->get(),
             'rekapRujuk' => Rujuk::where('kua_id', $kua->id)->whereMonth('tanggal_rujuk', $bulan)->whereYear('tanggal_rujuk', $tahun)->get(),
+            'rekapDaftarNikah' => $rekapDaftarNikah, 
+            'pendidikanSuami' => $pendidikanSuami,
+            'pendidikanIstri' => $pendidikanIstri,
+            'kepalaKua' => $kepalaKua,
         ];
 
         // 3. Logika untuk membuat dan menggabungkan PDF
         $pdf1 = PDF::loadView('laporan.halaman.1_surat_pengantar', $data)->setPaper('a4', 'portrait');
         $pdf2 = PDF::loadView('laporan.halaman.2_rekap_nikah', $data)->setPaper('a4', 'landscape');
         $pdf4 = PDF::loadView('laporan.halaman.4_usia_pengantin', $data)->setPaper('a4', 'landscape');
+         $pdf5 = PDF::loadView('laporan.halaman.5_pendidikan_pengantin', $data)->setPaper('a4', 'landscape');
 
         $merger = PDFMerger::init();
         $merger->addString($pdf1->output());
         $merger->addString($pdf2->output());
         $merger->addString($pdf4->output());
+        $merger->addString($pdf5->output());
 
         $namaFile = 'Laporan KUA ' . $kua->nama_kua . ' - ' . $namaBulan . ' ' . $tahun . '.pdf';
         
@@ -114,6 +149,8 @@ class LaporanController extends Controller
         if (!$kua) {
             return redirect()->back()->with('error', 'Data KUA tidak ditemukan.');
         }
+        
+        $kepalaKua = $this->getKepalaKuaData($kua->nama_kua);
 
         // 2. Ambil data perceraian untuk periode yang dipilih
         $rekapPerceraian = Perceraian::where('kua_id', $kua->id)
@@ -134,6 +171,7 @@ class LaporanController extends Controller
             'rekapPerceraian' => $rekapPerceraian,
             'jumlahTalak' => $jumlahTalak,
             'jumlahGugat' => $jumlahGugat,
+            'kepalaKua' => $kepalaKua,
         ];
 
         // 5. Render PDF dan kirim sebagai download
