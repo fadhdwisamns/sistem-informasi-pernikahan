@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\MasterKua;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,7 +33,8 @@ class AdminUserController extends Controller
     {
         // Definisikan role yang tersedia
         $roles = ['admin', 'petugas_kua', 'petugas_pa'];
-        return view('admin.users.create', compact('roles'));
+        $master_kua = MasterKua::all();
+        return view('admin.users.create', compact('roles', 'master_kua'));
     }
 
     /**
@@ -45,6 +47,7 @@ class AdminUserController extends Controller
             'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:8|confirmed',
             'role' => ['required', Rule::in(['admin', 'petugas_kua', 'petugas_pa'])],
+            'master_kua_id' => 'nullable|required_if:role,petugas_kua|exists:master_kua,id',
         ]);
 
         User::create([
@@ -52,6 +55,7 @@ class AdminUserController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'kua_id' => $request->master_kua_id,
         ]);
 
         return redirect()->route('admin.users.index')
@@ -72,7 +76,9 @@ class AdminUserController extends Controller
     public function edit(User $user)
     {
         $roles = ['admin', 'petugas_kua', 'petugas_pa'];
-        return view('admin.users.edit', compact('user', 'roles'));
+        $master_kua = MasterKua::all();
+
+        return view('admin.users.edit', compact('user', 'roles', 'master_kua'));
     }
 
     /**
@@ -82,15 +88,17 @@ class AdminUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username',
+            'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
             'password' => 'nullable|string|min:8', // Password optional saat update
             'password_confirmation' => ['nullable', 'string', 'min:8', 'same:password'], // Validasi konfirmasi
             'role' => ['required', Rule::in(['admin', 'petugas_kua', 'petugas_pa'])],
+            'master_kua_id' => 'nullable|required_if:role,petugas_kua|exists:master_kua,id',
         ]);
 
         $user->name = $request->name;
         $user->username = $request->username;
         $user->role = $request->role;
+        $user->kua_id = $request->role == 'petugas_kua' ? $request->master_kua_id : null; 
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

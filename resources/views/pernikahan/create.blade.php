@@ -36,7 +36,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('petugas-kua.pernikahan.store') }}" class="space-y-8" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('petugas-kua.pernikahan.store') }}" class="space-y-8" enctype="multipart/form-data" id="pernikahanForm">
                         @csrf
 
                         {{-- Panel Data Administrasi & Wali --}}
@@ -199,6 +199,31 @@
         flatpickr(".date-picker", {
             dateFormat: "d/m/Y",
             allowInput: true, // Memungkinkan input manual
+        });
+    </script>
+
+     <script>
+        document.getElementById('pernikahanForm').addEventListener('submit', function(event) {
+            
+            event.preventDefault(); 
+    
+          
+            Swal.fire({
+                title: 'Konfirmasi Simpan Data',
+                text: "Periksa kembali data Anda. Data yang sudah terkirim tidak bisa diubah.",
+                icon: 'warning', // Ikon peringatan
+                showCancelButton: true,
+                confirmButtonColor: '#0ea5e9', // Warna tombol konfirmasi (biru)
+                cancelButtonColor: '#ef4444',  // Warna tombol batal (merah)
+                confirmButtonText: 'Ya, simpan data!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                
+                if (result.isConfirmed) {
+                   
+                    this.submit(); 
+                }
+            });
         });
     </script>
 </x-app-layout>

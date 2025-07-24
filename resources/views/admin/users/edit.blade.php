@@ -67,6 +67,20 @@
                             <x-input-error class="mt-2" :messages="$errors->get('role')" />
                         </div>
 
+                        {{-- Master KUA (Dropdown baru) --}}
+                        <div id="master-kua-field" style="display: {{ old('role', $user->role) == 'petugas_kua' ? 'block' : 'none' }};">
+                            <x-input-label for="master_kua_id" :value="__('Kantor Urusan Agama (KUA)')" />
+                            <select id="master_kua_id" name="master_kua_id" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                                <option value="">-- Pilih KUA --</option>
+                                @foreach($master_kua as $kua)
+                                    <option value="{{ $kua->id }}" {{ old('master_kua_id', $user->master_kua_id) == $kua->id ? 'selected' : '' }}>
+                                        {{ $kua->nama_kua }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('master_kua_id')" />
+                        </div>
+
                         <div class="flex items-center justify-end gap-4 mt-6">
                             <a href="{{ route('admin.users.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-gray-800 dark:text-gray-200 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-600 focus:bg-gray-400 dark:focus:bg-gray-600 active:bg-gray-500 dark:active:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
                                 {{ __('Batal') }}
